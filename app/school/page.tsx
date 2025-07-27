@@ -13,6 +13,7 @@ import {
   Timestamp,
   addDoc,
   collection,
+  updateDoc,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { toast } from "sonner";
@@ -27,6 +28,7 @@ import { nanoid } from "nanoid";
 
 export default function SchoolDashboardPage() {
   const [user, setUser] = useState<any>(null);
+  const [newUser, setNewUser] = useState<boolean>(true);
   const [subscriptionActive, setSubscriptionActive] = useState(false);
   const [subscriptionPlan, setSubscriptionPlan] = useState("");
   const [subscriptionAt, setSubscriptionAt] = useState<Date | null>(null);
@@ -66,11 +68,13 @@ export default function SchoolDashboardPage() {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const data = docSnap.data();
+        setNewUser(data.newUser);
         setSubscriptionActive(data.subscriptionActive || false);
         setSubscriptionPlan(data.subscriptionPlan || "");
         if (data.subscriptionAt instanceof Timestamp)
           setSubscriptionAt(data.subscriptionAt.toDate());
         setSubscriptionDuration(data.subscriptionDuration || null);
+        console.log("Asdasd", !!data.schoolProfile);
         setProfileComplete(!!data.schoolProfile);
 
         if (data.schoolProfile) {
@@ -87,6 +91,14 @@ export default function SchoolDashboardPage() {
     });
     return () => unsub();
   }, [router]);
+
+  useEffect(() => {
+    if (selectedNav === "logout") {
+      auth.signOut().then(() => {
+        router.push("/auth");
+      });
+    }
+  }, [selectedNav, router]);
 
   const handleSaveProfile = async () => {
     if (!schoolName || !shortName || !user) {
@@ -142,7 +154,7 @@ export default function SchoolDashboardPage() {
     const userRef = doc(db, "users", user.uid);
     await setDoc(
       userRef,
-      { schoolProfile, updatedAt: serverTimestamp() },
+      { schoolProfile, updatedAt: serverTimestamp(), profileComplete: true },
       { merge: true }
     );
     setProfileComplete(true);
@@ -170,7 +182,11 @@ export default function SchoolDashboardPage() {
     setSubscriptionActive(true);
     setSubscriptionPlan(plan);
     setSubscriptionDuration(duration);
-
+    setNewUser(false);
+    const docRef = doc(db, "users", user.uid);
+    await updateDoc(docRef, {
+      newUser: false,
+    });
     const invoiceData = {
       id: nanoid(8),
       plan,
@@ -183,6 +199,7 @@ export default function SchoolDashboardPage() {
   };
 
   const renderContent = () => {
+    if (selectedNav === "logout") return null;
     switch (selectedNav) {
       case "subscription":
         return (
@@ -193,6 +210,7 @@ export default function SchoolDashboardPage() {
             handleSubscription={handleSubscription}
             subscriptionAt={subscriptionAt}
             subscriptionDuration={subscriptionDuration}
+            newUser={newUser}
           />
         );
       case "profile":
@@ -226,10 +244,6 @@ export default function SchoolDashboardPage() {
         );
       case "invoices":
         return <InvoicesSection />;
-      case "logout":
-        auth.signOut();
-        router.push("/auth");
-        return null;
       default:
         return null;
     }

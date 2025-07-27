@@ -16,6 +16,7 @@ interface SubscriptionSectionProps {
   subscriptionPlan: string;
   subscriptionAt?: Date | null;
   subscriptionDuration?: string | null;
+  newUser: boolean;
 }
 
 const plans = [
@@ -84,6 +85,7 @@ export default function SubscriptionSection({
   subscriptionPlan,
   subscriptionAt,
   subscriptionDuration,
+  newUser,
 }: SubscriptionSectionProps) {
   const [remaining, setRemaining] = useState<string>("");
 
@@ -114,6 +116,9 @@ export default function SubscriptionSection({
 
   const canUpgrade = (current: string, target: string) => {
     const rank = { Basic: 1, Pro: 2, Institution: 3 };
+    if (newUser) {
+      return true;
+    }
     return rank[target] > rank[current];
   };
 
@@ -220,9 +225,7 @@ export default function SubscriptionSection({
                       : "bg-gray-200 text-gray-500 cursor-not-allowed"
                   }`}
                 >
-                  {allowUpgrade
-                    ? `Choose ${plan.name}`
-                    : "Not allowed"}
+                  {allowUpgrade ? `Choose ${plan.name}` : `Not allowed`}
                 </motion.button>
               ) : (
                 <motion.button

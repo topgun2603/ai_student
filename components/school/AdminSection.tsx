@@ -194,7 +194,7 @@ export default function AdminsSection({
       <div className="flex items-center gap-4">
         <button
           onClick={handleAddAdmin}
-          disabled={admins.length >= PLAN_LIMITS[subscriptionPlan || "Basic"]}
+          disabled={(admins.length >= PLAN_LIMITS[subscriptionPlan || "Basic"]) || !profileComplete}
           className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:opacity-50"
         >
           <PlusCircle size={18} /> Add Admin

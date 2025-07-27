@@ -46,6 +46,7 @@ export default function AuthPage() {
         await setDoc(doc(db, "users", userCred.user.uid), {
           email,
           role: "school",
+          newUser: true,
           createdAt: new Date(),
         });
       } else {
@@ -66,6 +67,7 @@ export default function AuthPage() {
         {
           email: userCred.user.email,
           role: "school",
+          newUser: true,
           createdAt: new Date(),
         },
         { merge: true }
