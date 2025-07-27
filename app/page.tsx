@@ -1,103 +1,248 @@
-import Image from "next/image";
+"use client";
+import React, { useState } from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Typewriter } from "react-simple-typewriter";
+import {
+  FaChalkboardTeacher,
+  FaUserGraduate,
+  FaChartBar,
+  FaLayerGroup,
+} from "react-icons/fa";
+
+const features = [
+  {
+    icon: <FaUserGraduate className="text-indigo-500 text-3xl" />,
+    title: "Smart Student Module",
+    description:
+      "Evaluate answers from handwritten sheets or typed input using GPT + OCR. Track subject mastery and give personalized feedback.",
+  },
+  {
+    icon: <FaChartBar className="text-indigo-500 text-3xl" />,
+    title: "Performance Dashboards",
+    description:
+      "Visualize student growth, identify weak areas, and guide them with AI-suggested improvements.",
+  },
+  {
+    icon: <FaChalkboardTeacher className="text-indigo-500 text-3xl" />,
+    title: "Teacher-Friendly Builder",
+    description:
+      "Auto-generate question papers from textbooks or uploaded PDFs — export to PDF/DOCX instantly.",
+  },
+  {
+    icon: <FaLayerGroup className="text-indigo-500 text-3xl" />,
+    title: "Notion-Style Folders",
+    description:
+      "Organize content by class, subject, archive year-wise — intuitive and powerful file management.",
+  },
+];
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [yearly, setYearly] = useState(true);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  return (
+    <main className="bg-gradient-to-b from-white to-indigo-50 min-h-screen text-gray-800 font-sans">
+      {/* Hero */}
+      <section className="text-center px-6 py-24 bg-gradient-to-br from-indigo-600 to-indigo-500 text-white">
+        <motion.h1
+          className="text-4xl md:text-5xl font-bold mb-4 leading-tight"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          Empower Students with Smart Evaluation
+        </motion.h1>
+        <motion.p
+          className="text-lg md:text-xl mb-6 text-indigo-100"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          <Typewriter
+            words={[
+              "AI-based student feedback",
+              "Track subject mastery over time",
+              "Auto-evaluate answer sheets",
+              "Designed for classrooms of the future",
+            ]}
+            loop={true}
+            cursor
+            cursorStyle="_"
+            typeSpeed={60}
+            deleteSpeed={40}
+            delaySpeed={1800}
+          />
+        </motion.p>
+        <Link href="/auth">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            className="bg-white text-indigo-700 font-medium px-6 py-3 rounded-lg shadow hover:bg-indigo-100 transition"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            Try Now - It&apos;s Free
+          </motion.button>
+        </Link>
+      </section>
+
+      {/* Features */}
+      <section className="py-20 px-6 max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+          What Makes It Powerful
+        </h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+          {features.map((feature, idx) => (
+            <motion.div
+              key={idx}
+              className="bg-white rounded-2xl p-6 shadow hover:shadow-lg transition"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+            >
+              <div className="mb-4">{feature.icon}</div>
+              <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+              <p className="text-gray-600 text-sm">{feature.description}</p>
+            </motion.div>
+          ))}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </section>
+
+      {/* Demo Video */}
+      <section className="bg-white py-20 px-6 text-center">
+        <h2 className="text-3xl font-bold mb-4">Watch a Demo</h2>
+        <p className="text-gray-600 mb-6">
+          See how our AI-powered student module and paper builder works in
+          action
+        </p>
+        <div className="aspect-video max-w-5xl mx-auto bg-black/10 rounded-xl flex items-center justify-center text-gray-400 text-xl">
+          [ Video Demo Placeholder ]
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="bg-gradient-to-b from-indigo-50 to-white py-20 px-6 text-center">
+        <h2 className="text-3xl font-bold mb-4 text-gray-800">
+          Simple, Transparent Pricing
+        </h2>
+        <p className="text-gray-500 mb-8">
+          Flexible plans for individuals and institutions
+        </p>
+
+        {/* Toggle */}
+        <div className="flex justify-center mb-10">
+          <button
+            onClick={() => setYearly(false)}
+            className={`px-4 py-2 border rounded-l ${
+              !yearly ? "bg-indigo-600 text-white" : "bg-white text-gray-700"
+            }`}
+          >
+            Monthly
+          </button>
+          <button
+            onClick={() => setYearly(true)}
+            className={`px-4 py-2 border rounded-r ${
+              yearly ? "bg-indigo-600 text-white" : "bg-white text-gray-700"
+            }`}
+          >
+            Yearly
+          </button>
+        </div>
+
+        {/* Pricing Cards */}
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {[
+            {
+              name: "Basic",
+              monthly: 499,
+              yearly: 4999,
+              highlight: false,
+              features: [
+                "Create question papers (MCQs only)",
+                "PDF/DOCX export",
+                "Up to 5 GB file storage",
+                "Text-based extraction",
+                "Single user access",
+              ],
+            },
+            {
+              name: "Pro",
+              monthly: 999,
+              yearly: 9999,
+              highlight: true,
+              features: [
+                "All Basic features",
+                "AI-powered question generation (all types)",
+                "Student Module (auto evaluation)",
+                "20 GB cloud storage",
+                "Multi-format input (PDF, DOCX, Image)",
+                "Progress dashboards for students",
+                "Parent & teacher view",
+                "Email/chat support",
+              ],
+            },
+            {
+              name: "Institution",
+              monthly: 2499,
+              yearly: 24999,
+              highlight: false,
+              features: [
+                "All Pro features",
+                "Admin dashboard for school management",
+                "Unlimited staff & students",
+                "Custom branding + domains",
+                "Priority support (24/7)",
+                "Dedicated onboarding team",
+              ],
+            },
+          ].map((plan, idx) => (
+            <motion.div
+              key={idx}
+              className={`rounded-xl shadow-lg border p-6 transition hover:shadow-xl relative bg-white ${
+                plan.highlight ? "border-2 border-indigo-500" : ""
+              }`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: idx * 0.1 }}
+            >
+              {plan.highlight && (
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-indigo-500 text-white text-xs px-3 py-1 rounded-full">
+                  Most Popular
+                </div>
+              )}
+              <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
+              <p className="text-3xl font-semibold text-indigo-600 mb-4">
+                ₹{yearly ? plan.yearly : plan.monthly}
+                <span className="text-sm text-gray-500">
+                  /{yearly ? "year" : "month"}
+                </span>
+              </p>
+              <ul className="text-sm text-left text-gray-600 space-y-2 mb-6">
+                {plan.features.map((f, i) => (
+                  <li key={i} className="flex items-start">
+                    <span className="text-indigo-500 mr-2 mt-1">✔</span>
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+              <button
+                className={`w-full py-2 rounded font-medium ${
+                  plan.highlight
+                    ? "bg-indigo-600 text-white hover:bg-indigo-700"
+                    : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+                } transition`}
+              >
+                Choose {plan.name}
+              </button>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="text-center py-10 text-sm text-gray-500">
+        © {new Date().getFullYear()} Question Paper Builder. Built for better
+        classrooms.
       </footer>
-    </div>
+    </main>
   );
 }

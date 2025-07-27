@@ -1,0 +1,40 @@
+[
+  {
+    "name": "TamilNadu",
+    "cities": [
+      {
+        "name": "Chennai",
+        "areas": [
+          "T. Nagar",
+          "Velachery",
+          "Guindy"
+        ]
+      },
+      {
+        "name": "Coimbatore",
+        "areas": [
+          "Gandhipuram",
+          "RS Puram"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Karnataka",
+    "cities": [
+      {
+        "name": "Bengaluru",
+        "areas": [
+          "Whitefield",
+          "Koramangala"
+        ]
+      },
+      {
+        "name": "Mysuru",
+        "areas": [
+          "VV Mohalla"
+        ]
+      }
+    ]
+  }
+]
